@@ -10,14 +10,13 @@ import { useRouter } from "next/navigation";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 const Main: React.FC = () => {
-    const [search, setSearch] = useState<any>('');
+    const [search, setSearch] = useState<string>('');
     const {
         transcript,
         listening,
-        resetTranscript,
         browserSupportsSpeechRecognition
-      } = useSpeechRecognition();
-    
+    } = useSpeechRecognition();
+
     const router = useRouter();
 
     const googleLogo: string = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
@@ -43,16 +42,16 @@ const Main: React.FC = () => {
 
         const response = await new Promise((resolve, reject) => {
             const reader = new FileReader();
-    
+
             reader.onload = (event) => {
                 if (!event.target) return;
                 resolve(event.target.result);
             };
-    
+
             reader.onerror = (err) => {
                 reject(err);
             };
-    
+
             reader.readAsDataURL(file);
         });
         console.log(response);
@@ -62,7 +61,7 @@ const Main: React.FC = () => {
     if (!browserSupportsSpeechRecognition) {
         return null;
     }
-    
+
     return (
         <div className="flex flex-col items-center mt-28">
             <Image
@@ -73,22 +72,22 @@ const Main: React.FC = () => {
             />
             <form onSubmit={(e) => onSearchSubmit(e)} className="flex border mt-7 px-5 py-2 rounded-full w-2/5 items-center hover:shadow-md">
                 <AiOutlineSearch className="text-xl text-slate-400" />
-                <input 
-                    type="text" 
-                    className="w-full focus:outline-none ml-4" 
+                <input
+                    type="text"
+                    className="w-full focus:outline-none ml-4"
                     value={search || transcript}
                     onChange={(e) => setSearch(e.target.value)}
                 />
                 {
-                    listening ? 
-                        <BsFillMicFill 
+                    listening ?
+                        <BsFillMicFill
                             onClick={stopListening}
-                            className="text-3xl text-slate-400 mr-5" 
+                            className="text-3xl text-slate-400 mr-5"
                         />
-                    : <BiMicrophone 
-                        onClick={startListening}
-                        className="text-3xl text-slate-400 mr-5" 
-                    />
+                        : <BiMicrophone
+                            onClick={startListening}
+                            className="text-3xl text-slate-400 mr-5"
+                        />
 
                 }
                 <label htmlFor="imageInput">
@@ -102,12 +101,12 @@ const Main: React.FC = () => {
                 />
             </form>
             <div className="flex mt-7">
-                <button 
+                <button
                     className="bg-slate-100 mr-3 py-2 px-4 text-sm rounded hover:border"
                     onClick={(e) => onSearchSubmit(e)}>Google Search</button>
-                <button 
+                <button
                     className="bg-slate-100 py-2 px-4 text-sm  rounded hover:border"
-                    onClick={() => router.push('https://www.google.com/doodles')}>I'm Feeling Lucky</button>
+                    onClick={() => router.push('https://www.google.com/doodles')}>I&apos;m Feeling Lucky</button>
             </div>
         </div>
     )
